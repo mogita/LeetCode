@@ -13,3 +13,4 @@ let distributeCandies = function (candies) {
 // let candies = [1, 1, 2, 2, 3, 3, 3, 4]
 let candies = [1, 1, 2, 3]
 console.log(distributeCandies(candies))
+
