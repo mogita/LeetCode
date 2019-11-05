@@ -12,7 +12,7 @@
  */
 var strStr = solution1withKMP
 
-function solution1(haystack, needle) {
+function solution1 (haystack, needle) {
   if (needle === '') {
     return 0
   }
@@ -42,7 +42,7 @@ function solution1(haystack, needle) {
   return -1
 }
 
-function solution1withKMP(haystack, needle) {
+function solution1withKMP (haystack, needle) {
   if (needle === '') {
     return 0
   }
@@ -58,40 +58,30 @@ function solution1withKMP(haystack, needle) {
 
   // build a prefix table
   const pTable = buildPrefixTable(needle)
-  console.log('pTable=', pTable)
 
   // do comparison with the help of the prefix table
-  let maxMatches = 0
-  const hLen = haystack.length
-  const nLen = needle.length
-  for (let curIdx = 0; curIdx < hLen; curIdx++) {
-    console.info('start', 'curIdx=', curIdx, 'maxMatches=', maxMatches)
-    if (maxMatches > 0 && needle[maxMatches] !== haystack[curIdx]) {
-      console.info('pTable needed,', 'maxMatches=', maxMatches, 'pTable[maxMatches - 1]=', pTable[maxMatches - 1])
-      maxMatches = pTable[maxMatches - 1]
+  let i = 0
+  let j = 0
+  while (i < haystack.length) {
+    if (haystack[i] === needle[j]) {
+      j++
+      i++
     }
-    console.info('needle[maxMatches]=', needle[maxMatches], 'haystack[curIdx]=', haystack[curIdx])
-    if (needle[maxMatches] === haystack[curIdx]) {
-      maxMatches++
+    if (j === needle.length) {
+      return i - j
     }
-    console.info('maxMatches=', maxMatches, 'nLen=', nLen)
-    if (maxMatches === nLen) {
-      return curIdx - nLen + 1
+    if (haystack[i] !== needle[j]) {
+      if (j !== 0) {
+        j = pTable[j - 1]
+      } else {
+        i++
+      }
     }
-    // maxMatches = pTable[maxMatches]
-    console.info('=end=', 'curIdx=', curIdx, 'maxMatches=', maxMatches)
   }
   return -1
 }
 
-console.log(
-  solution1withKMP(
-    'ababaabbbbababbaabaaabaabbaaaabbabaabbbbbbabbaabbabbbabbbbbaaabaababbbaabbbabbbaabbbbaaabbababbabbbabaaabbaabbabababbbaaaaaaababbabaababaabbbbaaabbbabb',
-    'abbabbbabaa',
-  ),
-)
-
-function buildPrefixTable(needle) {
+function buildPrefixTable (needle) {
   const pTable = new Array(needle.length).fill(0)
   // init the max length as 0
   let maxLen = 0
@@ -117,7 +107,7 @@ function buildPrefixTable(needle) {
 
 // console.log(buildPrefixTable('abbabbbabaa'))
 
-function solution2(haystack, needle) {
+function solution2 (haystack, needle) {
   if (needle === '') {
     return 0
   }
