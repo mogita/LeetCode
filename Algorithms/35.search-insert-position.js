@@ -12,30 +12,31 @@
  */
 var searchInsert = solution1
 
-function solution1(nums, target) {
-  return binarySearch(nums, target, 0)
-}
+function solution1 (nums, target) {
+  if (target < nums[0]) {
+    return 0
+  } else if (target > nums[nums.length - 1]) {
+    return nums.length
+  }
 
-function binarySearch(nums, target, indexCandidate) {
-  // console.info(nums, indexCandidate)
-  let pointerM = indexCandidate
+  let pointerM = 0
   let pointerL = 0
   let pointerR = nums.length - 1
-  while (pointerL <= pointerR && nums.length > 1) {
-    pointerM = Math.floor((pointerL + pointerR) / 2)
-    if (nums[pointerM] === target) {
+  while (pointerL <= pointerR) {
+    if (pointerL > pointerR) {
       return pointerM
-    } else if (target < nums[pointerM]) {
-      pointerR = pointerM - 1
-      pointerM = binarySearch(nums.slice(0, pointerR), target, pointerR)
-    } else {
+    }
+    pointerM = Math.floor((pointerL + pointerR) / 2)
+    if (target > nums[pointerM]) {
       pointerL = pointerM + 1
-      pointerM = binarySearch(nums.slice(pointerL), target, pointerL)
+    }
+    if (target < nums[pointerM]) {
+      pointerR = pointerM - 1
+    }
+    if (target === nums[pointerM]) {
+      return pointerM
     }
   }
-  console.info('return', target < nums[indexCandidate] ? indexCandidate : indexCandidate + 1)
-  return target < nums[indexCandidate] ? indexCandidate : indexCandidate + 1
+  return Math.max(pointerL, pointerR, pointerM)
 }
 // @lc code=end
-
-console.log(solution1([1, 3, 5, 6], 7))
